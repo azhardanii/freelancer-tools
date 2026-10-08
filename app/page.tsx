@@ -37,7 +37,7 @@ export default function HomePage() {
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#0A3638] tracking-tight leading-[1.15] mb-6">
             Paham Harga Jasamu.{' '}
             <span className="block text-[#0D9488]">
-              Tanpa Takut Kemahalan atau Boncos.
+              Jelas, Objektif &amp; Percaya Diri.
             </span>
           </h1>
 
@@ -94,7 +94,7 @@ export default function HomePage() {
               <ShieldCheckIcon className="w-6 h-6 text-[#0D9488]" />
             </div>
             <h3 className="text-lg font-bold text-[#0A3638] mb-2">
-              1. Floor Rate Anti-Boncos
+              1. Batas Minimum Aman (Floor Rate)
             </h3>
             <p className="text-sm text-[#526A6B] leading-relaxed">
               Batas tarif per jam dan per unit terendah agar target bulananmu tetap tercapai setelah dihitung buffer darurat dan jam non-billable.

@@ -120,7 +120,7 @@ export function Footer() {
             <span>•</span>
             <span>Berbasis Data</span>
             <span>•</span>
-            <span>Bebas Boncos</span>
+            <span>Penuh Percaya Diri</span>
           </p>
         </div>
       </div>

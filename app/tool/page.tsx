@@ -1181,7 +1181,7 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
                         </span>
                       </div>
                       <p className="text-[11px] text-[#526A6B] pt-1">
-                        Jangan terima proyek di bawah angka ini jika tidak ingin boncos waktu dan biaya.
+                        Jangan terima proyek di bawah angka ini agar waktu kerja dan biaya operasionalmu tetap tertutup dengan aman.
                       </p>
                     </div>
                   </div>

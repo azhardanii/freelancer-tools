@@ -12,6 +12,7 @@ import {
   CheckIcon,
   CopyIcon,
   ClockIcon,
+  LockIcon,
 } from '@/components/icons';
 
 export default function AnalyticsDashboardPage() {

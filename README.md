@@ -1,13 +1,13 @@
 # FREELANCER TOOLS BY UQI
 
-> **Kalkulator Rate Freelance Objektif & Generator Strategi Penawaran Anti-Boncos**  
+> **Kalkulator Rate Freelance Objektif & Generator Strategi Penawaran Terarah**  
 > Dibuat oleh [Azhar Dani (Uqi)](https://azhardanii.github.io) untuk talenta freelance Indonesia bersama **Lab Sekolah WFA**.
 
 ---
 
 ## 🎯 Gambaran Aplikasi
 
-Banyak calon freelancer dan praktisi freelance yang kesulitan menentukan harga jasanya: takut kemahalan sehingga ditolak calon klien, atau sebaliknya pasang harga terlalu murah hingga boncos dan burnout.
+Banyak calon freelancer dan praktisi freelance yang kesulitan menentukan harga jasanya: takut kemahalan sehingga ditolak calon klien, atau sebaliknya pasang harga terlalu murah hingga merugi dan burnout.
 
 **Freelancer Tools by Uqi** hadir untuk menjawab kegelisahan tersebut:
 1. **Engine Deterministik:** Menghitung **Floor Rate** (batas aman per jam dan per unit) agar target pendapatan bulanan pasti tercapai setelah memperhitungkan jam kerja billable, overhead, dan buffer darurat.
