@@ -1,0 +1,157 @@
+import fs from 'fs';
+import path from 'path';
+
+const DATA_DIR = path.join(process.cwd(), '.data');
+
+function ensureDataDir() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+}
+
+function readJsonFile<T>(filename: string, defaultValue: T): T {
+  ensureDataDir();
+  const filePath = path.join(DATA_DIR, filename);
+  if (!fs.existsSync(filePath)) {
+    return defaultValue;
+  }
+  try {
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error(`Error reading ${filename}:`, err);
+    return defaultValue;
+  }
+}
+
+function writeJsonFile(filename: string, data: any) {
+  ensureDataDir();
+  const filePath = path.join(DATA_DIR, filename);
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+  } catch (err) {
+    console.error(`Error writing ${filename}:`, err);
+  }
+}
+
+export interface StoredEvent {
+  id: string;
+  event: string;
+  properties?: Record<string, any>;
+  timestamp: string;
+}
+
+export interface StoredFeedback {
+  id: string;
+  priceFeeling: 'kemurahan' | 'pas' | 'kemahalan';
+  willUse: 'pasti_pakai' | 'mungkin' | 'tidak_yakin';
+  feedbackNotes?: string;
+  service?: string;
+  recommendedRate?: number;
+  timestamp: string;
+}
+
+export interface StoredLead {
+  id: string;
+  email: string;
+  name?: string;
+  role?: string;
+  notes?: string;
+  timestamp: string;
+}
+
+export const dataStore = {
+  getEvents(): StoredEvent[] {
+    return readJsonFile<StoredEvent[]>('events.json', []);
+  },
+  addEvent(event: Omit<StoredEvent, 'id' | 'timestamp'> & { timestamp?: string }) {
+    const events = this.getEvents();
+    const newEntry: StoredEvent = {
+      id: `evt_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      timestamp: event.timestamp || new Date().toISOString(),
+      event: event.event,
+      properties: event.properties || {},
+    };
+    events.unshift(newEntry);
+    writeJsonFile('events.json', events.slice(0, 1000));
+    return newEntry;
+  },
+
+  getFeedback(): StoredFeedback[] {
+    return readJsonFile<StoredFeedback[]>('feedback.json', []);
+  },
+  addFeedback(item: Omit<StoredFeedback, 'id' | 'timestamp'>) {
+    const feedbacks = this.getFeedback();
+    const newEntry: StoredFeedback = {
+      id: `fb_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      timestamp: new Date().toISOString(),
+      ...item,
+    };
+    feedbacks.unshift(newEntry);
+    writeJsonFile('feedback.json', feedbacks);
+    return newEntry;
+  },
+
+  getLeads(): StoredLead[] {
+    return readJsonFile<StoredLead[]>('leads.json', []);
+  },
+  addLead(item: Omit<StoredLead, 'id' | 'timestamp'>) {
+    const leads = this.getLeads();
+    const existingIndex = leads.findIndex((l) => l.email.toLowerCase() === item.email.toLowerCase());
+    const newEntry: StoredLead = {
+      id: `lead_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      timestamp: new Date().toISOString(),
+      ...item,
+    };
+    if (existingIndex >= 0) {
+      leads[existingIndex] = { ...leads[existingIndex], ...item, timestamp: new Date().toISOString() };
+    } else {
+      leads.unshift(newEntry);
+    }
+    writeJsonFile('leads.json', leads);
+    return newEntry;
+  },
+
+  getAnalyticsSummary() {
+    const events = this.getEvents();
+    const feedbacks = this.getFeedback();
+    const leads = this.getLeads();
+
+    const counts: Record<string, number> = {};
+    for (const e of events) {
+      counts[e.event] = (counts[e.event] || 0) + 1;
+    }
+
+    const priceFeelCounts = {
+      kemurahan: feedbacks.filter((f) => f.priceFeeling === 'kemurahan').length,
+      pas: feedbacks.filter((f) => f.priceFeeling === 'pas').length,
+      kemahalan: feedbacks.filter((f) => f.priceFeeling === 'kemahalan').length,
+    };
+
+    const willUseCounts = {
+      pasti_pakai: feedbacks.filter((f) => f.willUse === 'pasti_pakai').length,
+      mungkin: feedbacks.filter((f) => f.willUse === 'mungkin').length,
+      tidak_yakin: feedbacks.filter((f) => f.willUse === 'tidak_yakin').length,
+    };
+
+    return {
+      totalEvents: events.length,
+      eventCounts: counts,
+      funnel: {
+        landing_view: counts['landing_view'] || 0,
+        tool_start: counts['tool_start'] || 0,
+        rate_result_view: counts['rate_result_view'] || 0,
+        action_copy: counts['action_copy'] || 0,
+        feedback_submitted: feedbacks.length,
+        lead_submit: leads.length,
+        pay_intent_click: counts['pay_intent_click'] || 0,
+      },
+      priceFeelCounts,
+      willUseCounts,
+      totalLeads: leads.length,
+      recentEvents: events.slice(0, 50),
+      feedbacks: feedbacks.slice(0, 50),
+      leads: leads.slice(0, 50),
+    };
+  },
+};

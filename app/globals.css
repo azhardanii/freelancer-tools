@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #F8FBFA;
+  --foreground: #102A2B;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Light mode only - clean card styles */
+.teal-gradient-hero {
+  background: linear-gradient(180deg, #EAF7F5 0%, #F8FBFA 100%);
+}
+
+.teal-border-glow:focus-within {
+  border-color: #0A3638;
+  box-shadow: 0 0 0 3px rgba(10, 54, 56, 0.12);
+}
+
+/* Smooth transitions */
+button, input, select, textarea, a {
+  transition: all 0.18s ease-in-out;
+}
+
+/* Custom Print styles for clean export */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-page {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+}
