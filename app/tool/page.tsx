@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Navigation, Footer } from '@/components/Navigation';
 import {
   SparklesIcon,
@@ -232,11 +232,15 @@ export default function ToolPage() {
   const [service, setService] = useState('');
   const [experience, setExperience] = useState('kurang_1_tahun');
   const [targetClient, setTargetClient] = useState('umkm');
-  const [targetNet, setTargetNet] = useState<number>(5_000_000);
+  const [targetNet, setTargetNet] = useState<number>(0);
   const [hoursPerDay, setHoursPerDay] = useState<number>(6);
   const [proof, setProof] = useState('belum_ada');
   const [projectStory, setProjectStory] = useState('');
   const [portfolioLink, setPortfolioLink] = useState('');
+
+  // Sticky HUD State & Ref
+  const [isHudSticky, setIsHudSticky] = useState(false);
+  const hudRef = useRef<HTMLDivElement>(null);
 
   // Assumptions Panel State
   const [showAssumptions, setShowAssumptions] = useState(false);
@@ -268,7 +272,7 @@ export default function ToolPage() {
   const [leadEmail, setLeadEmail] = useState('');
   const [leadSubmitted, setLeadSubmitted] = useState(false);
 
-  // Restore state from localStorage on mount
+  // Restore state from localStorage on mount & Setup HUD scroll docking
   useEffect(() => {
     trackEvent('tool_start');
     try {
@@ -279,6 +283,14 @@ export default function ToolPage() {
     } catch (e) {
       // Ignore localStorage error
     }
+
+    const handleScroll = () => {
+      if (!hudRef.current) return;
+      const rect = hudRef.current.getBoundingClientRect();
+      setIsHudSticky(rect.top <= 66);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const showToast = (msg: string) => {
@@ -290,6 +302,10 @@ export default function ToolPage() {
     e.preventDefault();
     if (!service.trim()) {
       setErrorMsg('Mohon isi nama jasa yang ingin kamu hitung.');
+      return;
+    }
+    if (!targetNet || targetNet <= 0) {
+      setErrorMsg('Mohon tentukan Target Bersih / Bulan pada poin 4 (bisa pilih tombol rekomendasi atau ketik angka).');
       return;
     }
 
@@ -584,36 +600,57 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
               </div>
             )}
 
-            {/* LIVE SIMULATION HUD (Studio Deck) */}
-            <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0A3638] to-[#114E52] text-white shadow-card relative overflow-hidden no-print">
+            {/* LIVE SIMULATION HUD (Studio Deck) - Sticky When Scrolled */}
+            <div
+              ref={hudRef}
+              className={`sticky top-16 z-30 transition-all duration-300 no-print ${
+                isHudSticky
+                  ? 'mb-4 p-3 sm:p-4 rounded-2xl bg-[#0A3638]/95 backdrop-blur-md text-white shadow-2xl border-2 border-[#2DD4BF]/50 ring-4 ring-[#0A3638]/10'
+                  : 'mb-6 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-[#0A3638] to-[#114E52] text-white shadow-card border border-white/10'
+              }`}
+            >
               <div className="absolute right-0 top-0 translate-x-8 -translate-y-8 w-48 h-48 bg-[#2DD4BF]/15 rounded-full blur-2xl pointer-events-none" />
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center shrink-0">
-                    <CalculatorIcon className="w-5 h-5 text-[#2DD4BF]" />
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 relative z-10">
+                <div className="flex items-center gap-2.5 sm:gap-3">
+                  <div className={`rounded-xl bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center shrink-0 transition-all ${
+                    isHudSticky ? 'w-8 h-8 sm:w-10 sm:h-10' : 'w-10 h-10'
+                  }`}>
+                    <CalculatorIcon className={`text-[#2DD4BF] transition-all ${
+                      isHudSticky ? 'w-4 h-4 sm:w-5 sm:h-5' : 'w-5 h-5'
+                    }`} />
                   </div>
                   <div>
-                    <span className="text-[10px] tracking-wider uppercase font-bold text-[#A3D9D0]">
-                      Simulasi Kapasitas Real-Time
-                    </span>
-                    <div className="text-base sm:text-lg font-extrabold flex items-center gap-2">
-                      <span>{formatRupiah(targetNet)}</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] tracking-wider uppercase font-extrabold text-[#A3D9D0]">
+                        Simulasi Kapasitas Real-Time
+                      </span>
+                      {isHudSticky && (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[#2DD4BF]/20 text-[#2DD4BF] text-[9px] font-extrabold border border-[#2DD4BF]/40">
+                          <span className="h-1.5 w-1.5 rounded-full bg-[#2DD4BF] animate-pulse" />
+                          <span>Live Sync</span>
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-base sm:text-lg font-extrabold flex items-baseline gap-1.5 text-white">
+                      <span className="text-[#2DD4BF] tracking-tight">{formatRupiah(targetNet)}</span>
                       <span className="text-xs font-normal text-white/70">/ bln (Target Bersih)</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 sm:flex sm:items-center gap-3 sm:gap-6 text-xs w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-white/10">
-                  <div className="bg-white/5 sm:bg-transparent p-2 sm:p-0 rounded-lg">
+                <div className="grid grid-cols-2 sm:flex sm:items-center gap-3 sm:gap-6 text-xs w-full sm:w-auto pt-2.5 sm:pt-0 border-t sm:border-t-0 border-white/15">
+                  <div className="bg-white/5 sm:bg-transparent p-1.5 sm:p-0 rounded-lg">
                     <span className="text-[10px] text-white/60 block">Waktu Proyek Efektif</span>
-                    <span className="font-bold text-[#2DD4BF] text-sm">
+                    <span className="font-bold text-[#2DD4BF] text-xs sm:text-sm">
                       ~{Math.round(hoursPerDay * workDays * billableRatio)} jam/bln
                     </span>
                   </div>
-                  <div className="bg-white/5 sm:bg-transparent p-2 sm:p-0 rounded-lg">
+                  <div className="bg-white/5 sm:bg-transparent p-1.5 sm:p-0 rounded-lg">
                     <span className="text-[10px] text-white/60 block">Estimasi Floor Per Jam</span>
-                    <span className="font-bold text-white text-sm">
-                      ~{formatRupiah(Math.round(((targetNet + overhead) / (1 - bufferPct)) / Math.max(1, hoursPerDay * workDays * billableRatio)))}/jam
+                    <span className="font-bold text-white text-xs sm:text-sm">
+                      {targetNet > 0
+                        ? `~${formatRupiah(Math.round(((targetNet + overhead) / (1 - bufferPct)) / Math.max(1, hoursPerDay * workDays * billableRatio)))}/jam`
+                        : 'Rp 0/jam'}
                     </span>
                   </div>
                 </div>
@@ -772,10 +809,11 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
                       <input
                         type="number"
                         step={100000}
-                        min={500000}
-                        value={targetNet}
-                        onChange={(e) => setTargetNet(Number(e.target.value))}
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#CBE5E1] bg-white focus:outline-none focus:border-[#0A3638] focus:ring-2 focus:ring-[#0A3638]/10 text-sm sm:text-base text-[#0A3638] font-extrabold"
+                        min={0}
+                        value={targetNet === 0 ? '' : targetNet}
+                        onChange={(e) => setTargetNet(Math.max(0, Number(e.target.value) || 0))}
+                        placeholder="0 (Pilih rekomendasi di bawah atau ketik)"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#CBE5E1] bg-white focus:outline-none focus:border-[#0A3638] focus:ring-2 focus:ring-[#0A3638]/10 text-sm sm:text-base text-[#0A3638] font-extrabold placeholder:text-[#526A6B]/50"
                       />
                     </div>
                     {/* Preset Chips */}
