@@ -1,36 +1,53 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 
-const DATA_DIR = path.join(process.cwd(), '.data');
+// On Vercel serverless, process.cwd() is read-only. We use os.tmpdir() when on Vercel.
+const DATA_DIR = process.env.VERCEL
+  ? path.join(os.tmpdir(), 'freelancer-tools-data')
+  : path.join(process.cwd(), '.data');
+
+// In-memory fallback cache for serverless environments
+const memoryCache: Record<string, any> = {
+  'events.json': [],
+  'feedback.json': [],
+  'leads.json': [],
+};
 
 function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+  } catch (err) {
+    // Ignore error in restricted environments
   }
 }
 
 function readJsonFile<T>(filename: string, defaultValue: T): T {
   ensureDataDir();
   const filePath = path.join(DATA_DIR, filename);
-  if (!fs.existsSync(filePath)) {
-    return defaultValue;
-  }
   try {
-    const raw = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(raw);
+    if (fs.existsSync(filePath)) {
+      const raw = fs.readFileSync(filePath, 'utf-8');
+      const parsed = JSON.parse(raw);
+      memoryCache[filename] = parsed;
+      return parsed;
+    }
   } catch (err) {
-    console.error(`Error reading ${filename}:`, err);
-    return defaultValue;
+    // Fallback to memory
   }
+  return (memoryCache[filename] as T) || defaultValue;
 }
 
 function writeJsonFile(filename: string, data: any) {
+  memoryCache[filename] = data;
   ensureDataDir();
   const filePath = path.join(DATA_DIR, filename);
   try {
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
   } catch (err) {
-    console.error(`Error writing ${filename}:`, err);
+    // Graceful fallback to memoryCache if file system is read-only
   }
 }
 
