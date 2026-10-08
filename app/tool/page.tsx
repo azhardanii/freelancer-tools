@@ -194,8 +194,39 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
     window.print();
   };
 
+  const handleAutoFeedback = async (type: 'price' | 'usage', value: string) => {
+    const newPriceFeeling = type === 'price' ? value : priceFeeling || 'pas';
+    const newWillUse = type === 'usage' ? value : willUse || 'mungkin';
+
+    if (type === 'price') {
+      setPriceFeeling(value);
+      trackEvent('feedback_price_feel', { feeling: value });
+    } else {
+      setWillUse(value);
+      trackEvent('feedback_will_use', { willUse: value });
+    }
+
+    try {
+      await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceFeeling: newPriceFeeling,
+          willUse: newWillUse,
+          feedbackNotes,
+          service: result?.serviceParams?.serviceName,
+          recommendedRate: result?.pricing?.recommended,
+        }),
+      });
+      setFeedbackSubmitted(true);
+      showToast(type === 'price' ? 'Pendapatmu tercatat, terima kasih! 🎯' : 'Terima kasih atas responsmu! 👍');
+    } catch (e) {
+      // ignore
+    }
+  };
+
   const handleFeedbackSubmit = async () => {
-    if (!priceFeeling && !willUse) return;
+    if (!priceFeeling && !willUse && !feedbackNotes) return;
     try {
       await fetch('/api/feedback', {
         method: 'POST',
@@ -209,7 +240,7 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
         }),
       });
       setFeedbackSubmitted(true);
-      showToast('Terima kasih banyak atas feedbackmu!');
+      showToast('Terima kasih banyak atas feedback & catatanmu!');
     } catch (e) {
       // ignore
     }
@@ -723,6 +754,82 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
                       Untuk pengerjaan ekspres, revisi unlimited, atau klien dengan kebutuhan skala besar.
                     </p>
                   </div>
+                </div>
+
+                {/* Quick Interactive Reaction Poll (High-Conversion Feedback) */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-[#CBE5E1] shadow-card no-print">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-2 w-2 rounded-full bg-[#0D9488] animate-pulse" />
+                        <h3 className="font-extrabold text-xs sm:text-sm text-[#0A3638]">
+                          Gimana menurutmu angka rate Standard ({formatRupiah(result.pricing.recommended)}) ini?
+                        </h3>
+                      </div>
+                      <p className="text-[11px] text-[#526A6B] mt-0.5">
+                        Bantu kami validasi &amp; kalibrasi data (cukup 1 klik tanpa perlu ngetik):
+                      </p>
+                    </div>
+
+                    {/* 1-Click Price Perception Options */}
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
+                      {[
+                        { id: 'kemurahan', label: '😅 Kemurahan' },
+                        { id: 'pas', label: '🎯 Pas Banget' },
+                        { id: 'kemahalan', label: '💸 Kemahalan' },
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => handleAutoFeedback('price', opt.id)}
+                          className={`text-xs px-3.5 py-2 rounded-xl font-bold border transition-all flex items-center gap-1.5 shadow-xs ${
+                            priceFeeling === opt.id
+                              ? 'bg-[#0A3638] text-white border-[#0A3638] ring-2 ring-[#0A3638]/20 scale-105'
+                              : 'bg-[#F8FBFA] text-[#0A3638] border-[#CBE5E1] hover:bg-[#E8F5F3] hover:border-[#0D9488]'
+                          }`}
+                        >
+                          <span>{opt.label}</span>
+                          {priceFeeling === opt.id && <CheckIcon className="w-3.5 h-3.5 text-[#2DD4BF]" />}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Smooth Micro-Expansion: Question 2 after clicking option 1 */}
+                  {priceFeeling && (
+                    <div className="mt-4 pt-3.5 border-t border-[#E2ECE9]">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <p className="text-xs font-bold text-[#0A3638]">
+                            👍 Makasih responnya! Apakah rate ini bakal kamu pakai ke calon klien?
+                          </p>
+                          <span className="text-[10px] text-[#526A6B]">Klik untuk melengkapi validasi data:</span>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-2 shrink-0">
+                          {[
+                            { id: 'pasti_pakai', label: '✅ Pasti Pakai' },
+                            { id: 'mungkin', label: '🤔 Mungkin / Acuan' },
+                            { id: 'tidak_yakin', label: '❌ Belum Yakin' },
+                          ].map((opt) => (
+                            <button
+                              key={opt.id}
+                              type="button"
+                              onClick={() => handleAutoFeedback('usage', opt.id)}
+                              className={`text-xs px-3 py-1.5 rounded-xl font-bold border transition-all flex items-center gap-1 ${
+                                willUse === opt.id
+                                  ? 'bg-[#0D9488] text-white border-[#0D9488] ring-2 ring-[#0D9488]/20'
+                                  : 'bg-[#F8FBFA] text-[#0A3638] border-[#CBE5E1] hover:bg-[#E8F5F3]'
+                              }`}
+                            >
+                              <span>{opt.label}</span>
+                              {willUse === opt.id && <CheckIcon className="w-3 h-3 text-white" />}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Floor Price Card & Gap Analysis Card */}
