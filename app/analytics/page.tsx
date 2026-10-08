@@ -94,7 +94,7 @@ export default function AnalyticsDashboardPage() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `leads_ratefreelance_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute('download', `leads_remoterate_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -130,7 +130,7 @@ export default function AnalyticsDashboardPage() {
               <LockIcon className="w-7 h-7 text-[#0A3638]" />
             </div>
             <h1 className="text-xl sm:text-2xl font-extrabold text-[#0A3638] tracking-tight mb-2">
-              Uqi Analytics Vault
+              RemoteRate Analytics Vault
             </h1>
             <p className="text-xs text-[#526A6B] leading-relaxed mb-6">
               Halaman metrik & validasi ini bersifat rahasia. Masukkan PIN keamanan untuk membuka akses.

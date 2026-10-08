@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FREELANCER TOOLS BY UQI | Kalkulator Rate & Pricing Objektif",
+  title: "RemoteRate by Uqi | Kalkulator Rate & Pricing Objektif",
   description:
-    "Hitung harga jasa freelance ideal, batas floor hourly rate, dan analisis kapasitas bulanan dengan engine kalkulasi deterministik oleh Uqi (Lab Sekolah WFA).",
+    "Hitung harga jasa ideal, batas tarif minimum per jam, dan analisis kapasitas bulanan dengan engine kalkulasi deterministik oleh RemoteRate (Lab Sekolah WFA).",
   keywords: [
-    "freelancer tools by uqi",
+    "remoterate",
+    "remoterate by uqi",
+    "kalkulator rate freelance",
     "rate freelance indonesia",
     "kalkulator harga jasa",
     "freelance pricing calculator",

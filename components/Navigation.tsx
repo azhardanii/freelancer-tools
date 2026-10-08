@@ -21,7 +21,7 @@ export function Navigation() {
           </div>
           <div>
             <span className="font-extrabold text-sm sm:text-base text-[#0A3638] tracking-tight block leading-tight">
-              FREELANCER TOOLS <span className="text-[#0D9488]">BY UQI</span>
+              RemoteRate <span className="text-[#0D9488]">by Uqi</span>
             </span>
             <span className="text-[10px] text-[#526A6B] block font-medium">
               Kalkulator Rate &amp; Pricing Objektif
@@ -62,11 +62,11 @@ export function Footer() {
                 />
               </div>
               <span className="font-extrabold text-sm text-[#0A3638] tracking-tight">
-                FREELANCER TOOLS <span className="text-[#0D9488]">BY UQI</span>
+                RemoteRate <span className="text-[#0D9488]">by Uqi</span>
               </span>
             </div>
             <p className="text-xs text-[#526A6B] leading-relaxed">
-              Tools kalkulasi rate dan analisis kelayakan finansial objektif untuk membantu talenta freelance Indonesia memasang harga dengan percaya diri.
+              Tools kalkulasi rate dan analisis kelayakan finansial objektif untuk membantu talenta freelance &amp; remote worker memasang harga dengan percaya diri.
             </p>
           </div>
 
@@ -114,7 +114,7 @@ export function Footer() {
 
         {/* Bottom Copyright & Notes */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-[#526A6B]">
-          <p>© 2026 FREELANCER TOOLS BY UQI · Kolaborasi bersama Lab Sekolah WFA.</p>
+          <p>© 2026 RemoteRate by Uqi · Kolaborasi bersama Lab Sekolah WFA.</p>
           <p className="flex items-center gap-2">
             <span>Objektif</span>
             <span>•</span>

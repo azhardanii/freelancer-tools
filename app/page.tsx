@@ -30,7 +30,7 @@ export default function HomePage() {
           {/* Badge Hook */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#E8F5F3] border border-[#CBE5E1] text-[#0A3638] text-xs sm:text-sm font-semibold mb-6 shadow-xs">
             <SparklesIcon className="w-4 h-4 text-[#0D9488]" />
-            <span>Kalkulator Rate Freelance Pertama Berbasis Data Objektif</span>
+            <span>RemoteRate · Kalkulator Rate Pertama Berbasis Data Objektif</span>
           </div>
 
           {/* Main Headline */}
@@ -43,7 +43,7 @@ export default function HomePage() {
 
           {/* Subtitle */}
           <p className="text-base sm:text-lg lg:text-xl text-[#526A6B] max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-normal">
-            Bukan sekadar tebak-tebak buah manggis. Hitung floor rate amanmu, bandingkan dengan acuan pasar Indonesia, dan dapatkan paket harga 3 level serta script negosiasi taktis siap kirim.
+            Bukan sekadar tebak-tebak buah manggis. Hitung tarif minimum amanmu, bandingkan dengan acuan pasar Indonesia, dan dapatkan paket harga 3 level serta script negosiasi taktis siap kirim.
           </p>
 
           {/* Primary CTA Button */}
@@ -94,10 +94,10 @@ export default function HomePage() {
               <ShieldCheckIcon className="w-6 h-6 text-[#0D9488]" />
             </div>
             <h3 className="text-lg font-bold text-[#0A3638] mb-2">
-              1. Batas Minimum Aman (Floor Rate)
+              1. Batas Tarif Minimum Aman
             </h3>
             <p className="text-sm text-[#526A6B] leading-relaxed">
-              Batas tarif per jam dan per unit terendah agar target bulananmu tetap tercapai setelah dihitung buffer darurat dan jam non-billable.
+              Batas tarif per jam dan per unit terendah agar target bulananmu tetap tercapai setelah dihitung cadangan darurat dan jam kerja produktif.
             </p>
           </div>
 

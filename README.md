@@ -1,16 +1,16 @@
-# FREELANCER TOOLS BY UQI
+# RemoteRate by Uqi
 
-> **Kalkulator Rate Freelance Objektif & Generator Strategi Penawaran Terarah**  
-> Dibuat oleh [Azhar Dani (Uqi)](https://azhardanii.github.io) untuk talenta freelance Indonesia bersama **Lab Sekolah WFA**.
+> **Kalkulator Rate Freelance & Remote Worker Objektif**  
+> Dibuat oleh [Azhar Dani (Uqi)](https://azhardanii.github.io) untuk talenta freelance & remote worker Indonesia bersama **Lab Sekolah WFA**.
 
 ---
 
 ## 🎯 Gambaran Aplikasi
 
-Banyak calon freelancer dan praktisi freelance yang kesulitan menentukan harga jasanya: takut kemahalan sehingga ditolak calon klien, atau sebaliknya pasang harga terlalu murah hingga merugi dan burnout.
+Banyak calon freelancer dan praktisi remote yang kesulitan menentukan harga jasanya: takut kemahalan sehingga ditolak calon klien, atau sebaliknya pasang harga terlalu murah hingga merugi dan burnout.
 
-**Freelancer Tools by Uqi** hadir untuk menjawab kegelisahan tersebut:
-1. **Engine Deterministik:** Menghitung **Floor Rate** (batas aman per jam dan per unit) agar target pendapatan bulanan pasti tercapai setelah memperhitungkan jam kerja billable, overhead, dan buffer darurat.
+**RemoteRate by Uqi** hadir untuk menjawab kegelisahan tersebut:
+1. **Engine Deterministik:** Menghitung **Tarif Minimum Aman** (batas aman per jam dan per unit) agar target pendapatan bulanan pasti tercapai setelah memperhitungkan jam kerja produktif, modal bulanan, dan dana cadangan.
 2. **Paket Tarif 3 Level:** Menghasilkan rekomendasi paket **Basic (0.7x)**, **Standard (1.0x)**, dan **Premium (1.6x)** secara otomatis berdasarkan riset pasar freelance Indonesia dan penyesuaian bukti kerja.
 3. **Analisis Kapasitas (Gap Analysis):** Membandingkan berapa unit proyek yang harus didapat per bulan vs kapasitas jam kerja produktif.
 4. **Paket Perdana Khusus:** Rekomendasi strategi diskon awal 30% untuk 2–3 klien pertama bagi pemula yang belum punya portofolio untuk ditukar dengan testimoni tertulis dan izin studi kasus.

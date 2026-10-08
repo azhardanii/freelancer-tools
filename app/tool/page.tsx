@@ -276,7 +276,7 @@ export default function ToolPage() {
   useEffect(() => {
     trackEvent('tool_start');
     try {
-      const savedResult = localStorage.getItem('freelance_tool_rate_result');
+      const savedResult = localStorage.getItem('remoterate_result') || localStorage.getItem('freelance_tool_rate_result');
       if (savedResult) {
         setResult(JSON.parse(savedResult));
       }
@@ -367,7 +367,7 @@ export default function ToolPage() {
       setActiveTab('rate');
 
       try {
-        localStorage.setItem('freelance_tool_rate_result', JSON.stringify(data.data));
+        localStorage.setItem('remoterate_result', JSON.stringify(data.data));
       } catch (err) {
         // ignore
       }
@@ -406,7 +406,7 @@ export default function ToolPage() {
 • Target Bulanan: Butuh ${gap.unitsNeeded} unit (Kapasitas: ${gap.unitsCapacity} unit)
 Status: ${gap.feasible ? 'Target Feasible (Aman)' : 'Perlu Penyesuaian Strategi'}
 
-Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
+Dihitung via RemoteRate by Uqi (https://azhardanii.github.io)`;
 
     navigator.clipboard.writeText(text);
     trackEvent('action_copy', { type: 'summary' });
@@ -570,7 +570,7 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
             <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8 no-print">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E8F5F3] text-[#0A3638] text-xs font-semibold mb-3 border border-[#CBE5E1]">
                 <SparklesIcon className="w-3.5 h-3.5 text-[#0D9488]" />
-                <span>Kalkulator Rate Freelance Objektif</span>
+                <span>RemoteRate · Kalkulator Rate Objektif</span>
               </div>
               <h1 className="text-2xl sm:text-4xl font-extrabold text-[#0A3638] tracking-tight mb-2">
                 Hitung Rate &amp; Batas Aman Jasamu

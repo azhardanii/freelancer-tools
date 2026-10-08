@@ -4,7 +4,7 @@ import os from 'os';
 
 // On Vercel serverless, process.cwd() is read-only. We use os.tmpdir() when on Vercel.
 const DATA_DIR = process.env.VERCEL
-  ? path.join(os.tmpdir(), 'freelancer-tools-data')
+  ? path.join(os.tmpdir(), 'remoterate-data')
   : path.join(process.cwd(), '.data');
 
 // In-memory fallback cache for serverless environments
