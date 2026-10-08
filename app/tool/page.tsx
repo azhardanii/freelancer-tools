@@ -254,8 +254,8 @@ export default function ToolPage() {
   const [activeTab, setActiveTab] = useState<'rate' | 'scripts'>('rate');
   const [showMathDetails, setShowMathDetails] = useState(false);
 
-  // Standalone Proposal Modal State
-  const [showProposalModal, setShowProposalModal] = useState(false);
+  // Standalone Proposal Waitlist State
+  const [showProposalWaitlist, setShowProposalWaitlist] = useState(false);
 
   // Toast / Feedback State
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -544,105 +544,7 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
         </div>
       )}
 
-      {/* Standalone Proposal Preview Modal */}
-      {showProposalModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0A3638]/70 backdrop-blur-md no-print animate-fade-in overflow-y-auto">
-          <div className="w-full max-w-2xl bg-white rounded-3xl p-6 sm:p-8 shadow-card border border-[#CBE5E1] relative my-8">
-            <button
-              type="button"
-              onClick={() => setShowProposalModal(false)}
-              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F8FBFA] hover:bg-[#E8F5F3] border border-[#CBE5E1] text-[#0A3638] font-bold text-sm flex items-center justify-center transition-colors"
-            >
-              ✕
-            </button>
 
-            <div className="text-center mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-[#E8F5F3] border border-[#CBE5E1] flex items-center justify-center mx-auto mb-3 text-2xl">
-                <span>📄</span>
-              </div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-[#E8F5F3] text-[#0D9488] border border-[#CBE5E1]">
-                Fitur Pro · Segera Hadir
-              </span>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-[#0A3638] mt-2">
-                Mockup Generator Proposal &amp; Kontrak PDF A4
-              </h3>
-              <p className="text-xs text-[#526A6B] max-w-md mx-auto mt-1 leading-relaxed">
-                Nantinya kamu bisa download dokumen resmi berstandar agensi 1-klik untuk langsung dikirim ke calon klien.
-              </p>
-            </div>
-
-            {/* A4 Mockup Card Preview */}
-            <div className="p-5 sm:p-6 rounded-2xl bg-[#F8FBFA] border-2 border-dashed border-[#CBE5E1] text-xs space-y-4 mb-6 shadow-inner font-mono text-[#0A3638]">
-              <div className="flex justify-between items-start border-b border-[#E2ECE9] pb-3">
-                <div>
-                  <div className="font-extrabold text-sm text-[#0A3638]">SURAT PENAWARAN KERJASAMA (PROPOSAL)</div>
-                  <div className="text-[10px] text-[#526A6B]">No: PR/2026/08/{Math.floor(Math.random() * 900 + 100)}</div>
-                </div>
-                <div className="text-right text-[10px] text-[#526A6B]">
-                  Tanggal: {new Date().toLocaleDateString('id-ID')}
-                </div>
-              </div>
-
-              <div>
-                <span className="font-bold block text-[11px] mb-1">Spesifikasi Layanan:</span>
-                <p className="text-xs font-sans text-[#526A6B]">
-                  Penyelesaian pekerjaan <span className="font-bold text-[#0A3638]">{result?.serviceParams?.serviceName || service || 'Jasa Freelance'}</span> dengan standar pengerjaan profesional dan pengujian kualitas.
-                </p>
-              </div>
-
-              <div className="bg-white p-3 rounded-xl border border-[#E2ECE9]">
-                <div className="flex justify-between font-bold text-xs pb-1 border-b border-[#E2ECE9]">
-                  <span>Paket Standard Rekomendasi</span>
-                  <span className="text-[#0D9488]">{result ? formatRupiah(result.pricing.recommended) : 'Rp 1.500.000'}</span>
-                </div>
-                <div className="text-[10px] text-[#526A6B] pt-1">
-                  Termin: Pembayaran Uang Muka (DP) 50% sebelum pengerjaan dimulai, pelunasan 50% setelah serah terima hasil final.
-                </div>
-              </div>
-
-              <div className="text-[10px] text-[#526A6B] space-y-1">
-                <div>• Klausul Garansi: Termasuk 2 putaran revisi minor terarah.</div>
-                <div>• Hak Cipta: Beralih penuh kepada klien setelah pelunasan selesai.</div>
-              </div>
-            </div>
-
-            {/* Waitlist Form */}
-            <div className="border-t border-[#E2ECE9] pt-5">
-              {leadSubmitted ? (
-                <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold text-center">
-                  🎉 Terima kasih! Emailmu sudah terdaftar. Kami akan kirim akses prioritas saat fitur ini rilis!
-                </div>
-              ) : (
-                <form onSubmit={handleLeadSubmit} className="space-y-3">
-                  <div className="text-center">
-                    <p className="text-xs font-bold text-[#0A3638]">
-                      Ingin jadi orang pertama yang mencoba generator proposal ini?
-                    </p>
-                    <span className="text-[11px] text-[#526A6B]">Daftar gratis untuk akses rilis awal &amp; diskon khusus:</span>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-                    <input
-                      type="email"
-                      required
-                      placeholder="Masukkan alamat emailmu..."
-                      value={leadEmail}
-                      onChange={(e) => setLeadEmail(e.target.value)}
-                      className="flex-1 px-4 py-2.5 rounded-xl border border-[#CBE5E1] text-xs text-[#0A3638] focus:outline-none focus:border-[#0A3638]"
-                    />
-                    <button
-                      type="submit"
-                      className="px-5 py-2.5 rounded-xl bg-[#0A3638] hover:bg-[#07282A] text-white text-xs font-bold transition-all shadow-xs shrink-0 cursor-pointer"
-                    >
-                      Daftar Waitlist
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
       <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full">
         {/* ================= MODE 1: FORM WIZARD VIEW ================= */}
@@ -1263,7 +1165,7 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
                   <div>
                     <div className="flex flex-wrap items-center gap-2 mb-1">
                       <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#2DD4BF] text-[#0A3638] shadow-xs">
-                        HASIL ANALISIS RESMI
+                        HASIL ANALISIS
                       </span>
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
                         result.serviceParams.confidence === 'tinggi'
@@ -1395,42 +1297,97 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
                 <div className="p-5 sm:p-7 rounded-3xl bg-gradient-to-r from-[#0A3638] via-[#0D4447] to-[#125A5E] text-white shadow-card relative overflow-hidden border-2 border-[#2DD4BF]/40 no-print">
                   <div className="absolute right-0 top-0 translate-x-12 -translate-y-12 w-64 h-64 bg-[#2DD4BF]/15 rounded-full blur-3xl pointer-events-none" />
                   
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-5 relative z-10">
-                    <div className="flex items-start gap-4">
-                      {/* 3D Document Ornament */}
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-white/20 to-white/5 border border-white/25 flex items-center justify-center shrink-0 shadow-lg text-2xl relative">
-                        <span>📄</span>
-                        <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2DD4BF] opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-3 w-3 bg-[#2DD4BF]"></span>
-                        </span>
+                  <div className="relative z-10 space-y-5">
+                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+                      <div className="flex items-start gap-4">
+                        {/* 3D Document Ornament */}
+                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-white/20 to-white/5 border border-white/25 flex items-center justify-center shrink-0 shadow-lg text-2xl relative">
+                          <span>📄</span>
+                          <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2DD4BF] opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-3 w-3 bg-[#2DD4BF]"></span>
+                          </span>
+                        </div>
+
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                            <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#2DD4BF] text-[#0A3638] shadow-xs">
+                              FITUR PRO · SEGERA HADIR
+                            </span>
+                            <span className="text-xs text-white/70 font-medium">• Coming Soon</span>
+                          </div>
+                          <h3 className="text-lg sm:text-xl font-extrabold text-white leading-tight">
+                            Generate Dokumen Penawaran &amp; Kontrak PDF 1-Klik
+                          </h3>
+                          <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl leading-relaxed">
+                            Ekspor angka rate {formatRupiah(result.pricing.recommended)} langsung menjadi proposal resmi siap kirim dengan klausul DP 50%, batas revisi, dan termin kerja terstruktur.
+                          </p>
+                        </div>
                       </div>
 
-                      <div>
-                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                          <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#2DD4BF] text-[#0A3638] shadow-xs">
-                            FITUR PRO · SEGERA HADIR
-                          </span>
-                          <span className="text-xs text-white/70 font-medium">• Coming Soon</span>
-                        </div>
-                        <h3 className="text-lg sm:text-xl font-extrabold text-white leading-tight">
-                          Generate Dokumen Penawaran &amp; Kontrak PDF 1-Klik
-                        </h3>
-                        <p className="text-xs sm:text-sm text-white/80 mt-1 max-w-xl leading-relaxed">
-                          Ubah angka rate {formatRupiah(result.pricing.recommended)} ini langsung menjadi proposal resmi A4 dengan klausul DP 50%, batas revisi, dan hak cipta.
-                        </p>
-                      </div>
+                      {/* Prominent Action Button to reveal Waitlist Form */}
+                      {!showProposalWaitlist && (
+                        <button
+                          type="button"
+                          onClick={() => setShowProposalWaitlist(true)}
+                          className="w-full md:w-auto px-6 py-4 rounded-2xl bg-[#2DD4BF] hover:bg-[#14B8A6] text-[#0A3638] font-extrabold text-xs sm:text-sm shadow-hover hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 shrink-0 group cursor-pointer border border-white/30"
+                        >
+                          <span>Daftar Waitlist Fitur Ini</span>
+                          <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                      )}
                     </div>
 
-                    {/* Prominent Action Button */}
-                    <button
-                      type="button"
-                      onClick={() => setShowProposalModal(true)}
-                      className="w-full md:w-auto px-6 py-4 rounded-2xl bg-[#2DD4BF] hover:bg-[#14B8A6] text-[#0A3638] font-extrabold text-xs sm:text-sm shadow-hover hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 shrink-0 group cursor-pointer border border-white/30"
-                    >
-                      <span>Lihat Mockup &amp; Notifikasi Rilis</span>
-                      <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </button>
+                    {/* Section Form Daftar Waitlist (Muncul langsung saat tombol diklik) */}
+                    {showProposalWaitlist && (
+                      <div className="pt-4 border-t border-white/20 animate-fade-in">
+                        {leadSubmitted ? (
+                          <div className="p-4 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 text-xs sm:text-sm font-bold text-center flex items-center justify-center gap-2">
+                            <span>🎉</span>
+                            <span>Terima kasih! Email kamu sudah terdaftar di waitlist. Kami akan kabari segera begitu generator dokumen penawaran rilis!</span>
+                          </div>
+                        ) : (
+                          <form onSubmit={handleLeadSubmit} className="space-y-3">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                              <div>
+                                <h4 className="text-xs sm:text-sm font-extrabold text-white flex items-center gap-2">
+                                  <span>🔔</span>
+                                  <span>Daftar Waitlist Pro (Akses Prioritas Gratis)</span>
+                                </h4>
+                                <p className="text-[11px] sm:text-xs text-white/70">
+                                  Masukkan emailmu untuk mendapatkan akses awal &amp; kuota generate gratis saat fitur rilis resmi.
+                                </p>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => setShowProposalWaitlist(false)}
+                                className="text-[11px] text-white/60 hover:text-white underline self-start sm:self-auto cursor-pointer"
+                              >
+                                Tutup form
+                              </button>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-2 max-w-xl">
+                              <input
+                                type="email"
+                                required
+                                placeholder="Masukkan email aktifmu..."
+                                value={leadEmail}
+                                onChange={(e) => setLeadEmail(e.target.value)}
+                                className="flex-1 px-4 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur-md text-xs sm:text-sm text-white placeholder:text-white/50 focus:outline-none focus:border-[#2DD4BF] focus:bg-white/20 transition-all"
+                              />
+                              <button
+                                type="submit"
+                                className="px-6 py-3 rounded-xl bg-[#2DD4BF] hover:bg-[#14B8A6] text-[#0A3638] text-xs sm:text-sm font-extrabold transition-all shadow-md shrink-0 cursor-pointer flex items-center justify-center gap-2"
+                              >
+                                <span>Daftar Sekarang</span>
+                                <CheckIcon className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </form>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
 
