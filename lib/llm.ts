@@ -109,8 +109,8 @@ export async function normalizeService(serviceInput: string): Promise<ServicePar
       pricingUnit: seed.unit,
       typicalDeliverable: `1 unit ${seed.label.toLowerCase()}`,
       estHoursPerUnit: seed.estHoursPerUnit,
-      marketLow: seed.low,
-      marketHigh: seed.high,
+      marketLow: seed.low ?? 100_000,
+      marketHigh: seed.high ?? 300_000,
       confidence: 'tinggi',
       explanation: 'Diverifikasi langsung dari data riset marketplace freelance Indonesia.',
     };
