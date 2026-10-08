@@ -66,7 +66,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-xs text-[#526A6B] leading-relaxed">
-              Platform kalkulasi rate dan analisis kelayakan finansial objektif untuk membantu talenta freelance Indonesia memasang harga dengan percaya diri.
+              Tools kalkulasi rate dan analisis kelayakan finansial objektif untuk membantu talenta freelance Indonesia memasang harga dengan percaya diri.
             </p>
           </div>
 
