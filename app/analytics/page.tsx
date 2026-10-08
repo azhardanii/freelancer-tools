@@ -18,6 +18,9 @@ export default function AnalyticsDashboardPage() {
   const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pinInput, setPinInput] = useState('');
+  const [pinError, setPinError] = useState(false);
 
   const fetchAnalytics = async () => {
     setLoading(true);
@@ -35,8 +38,39 @@ export default function AnalyticsDashboardPage() {
   };
 
   useEffect(() => {
-    fetchAnalytics();
+    // Check URL query param ?key=uqi2026 or ?secret=uqi or stored session
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const secret = params.get('key') || params.get('secret');
+      const stored = sessionStorage.getItem('uqi_vault_authenticated');
+
+      if (secret === 'uqi2026' || secret === 'uqi' || stored === 'true') {
+        setIsAuthenticated(true);
+        sessionStorage.setItem('uqi_vault_authenticated', 'true');
+        fetchAnalytics();
+      } else {
+        setLoading(false);
+      }
+    }
   }, []);
+
+  const handleUnlock = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pinInput.trim() === 'uqi2026' || pinInput.trim().toLowerCase() === 'uqi') {
+      setIsAuthenticated(true);
+      setPinError(false);
+      sessionStorage.setItem('uqi_vault_authenticated', 'true');
+      fetchAnalytics();
+    } else {
+      setPinError(true);
+    }
+  };
+
+  const handleLock = () => {
+    sessionStorage.removeItem('uqi_vault_authenticated');
+    setIsAuthenticated(false);
+    setPinInput('');
+  };
 
   const handleExportCSV = () => {
     if (!data?.leads || data.leads.length === 0) {
@@ -85,6 +119,61 @@ export default function AnalyticsDashboardPage() {
     (data?.priceFeelCounts?.pas || 0) +
     (data?.priceFeelCounts?.kemahalan || 0);
 
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#F8FBFA]">
+        <Navigation />
+        <main className="flex-1 flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-white rounded-2xl border border-[#CBE5E1] shadow-card p-6 sm:p-8 text-center">
+            <div className="w-14 h-14 rounded-2xl bg-[#E8F5F3] border border-[#CBE5E1] flex items-center justify-center mx-auto mb-4 text-[#0A3638]">
+              <LockIcon className="w-7 h-7 text-[#0A3638]" />
+            </div>
+            <h1 className="text-xl sm:text-2xl font-extrabold text-[#0A3638] tracking-tight mb-2">
+              Uqi Analytics Vault
+            </h1>
+            <p className="text-xs text-[#526A6B] leading-relaxed mb-6">
+              Halaman metrik & validasi ini bersifat rahasia. Masukkan PIN keamanan untuk membuka akses.
+            </p>
+
+            <form onSubmit={handleUnlock} className="space-y-4">
+              <div>
+                <input
+                  type="password"
+                  value={pinInput}
+                  onChange={(e) => {
+                    setPinInput(e.target.value);
+                    setPinError(false);
+                  }}
+                  placeholder="Masukkan PIN Akses..."
+                  className="w-full px-4 py-3 rounded-xl border border-[#CBE5E1] bg-[#F8FBFA] focus:bg-white focus:outline-none focus:border-[#0A3638] text-center text-sm font-bold text-[#0A3638] tracking-widest placeholder:tracking-normal placeholder:font-normal"
+                  autoFocus
+                />
+                {pinError && (
+                  <p className="text-xs text-red-600 mt-2 font-medium">
+                    PIN tidak valid. Silakan coba lagi.
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3 rounded-xl bg-[#0A3638] hover:bg-[#07282A] text-white text-xs font-bold transition-all shadow-xs"
+              >
+                Buka Kunci Dashboard
+              </button>
+            </form>
+
+            <div className="mt-6 pt-5 border-t border-[#E2ECE9] text-[11px] text-[#526A6B]">
+              <span>💡 Tips: Kamu juga bisa bookmark URL rahasia langsung dengan parameter: </span>
+              <code className="text-[#0A3638] font-bold bg-[#E8F5F3] px-1.5 py-0.5 rounded">?key=uqi2026</code>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FBFA]">
       <Navigation />
@@ -95,7 +184,7 @@ export default function AnalyticsDashboardPage() {
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E8F5F3] text-[#0A3638] text-xs font-semibold mb-2 border border-[#CBE5E1]">
               <BarChart3Icon className="w-3.5 h-3.5 text-[#0D9488]" />
-              <span>Real-time Validation Dashboard</span>
+              <span>Real-time Validation Dashboard · Private</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0A3638]">
               Dashboard Analytics & Validasi
@@ -106,6 +195,13 @@ export default function AnalyticsDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={handleLock}
+              className="px-3 py-2 text-xs font-medium text-[#526A6B] hover:text-[#0A3638] bg-white hover:bg-[#F8FBFA] rounded-xl border border-[#CBE5E1] transition-colors"
+              title="Kunci Dashboard"
+            >
+              🔒 Kunci
+            </button>
             <button
               onClick={fetchAnalytics}
               disabled={loading}

@@ -20,24 +20,127 @@ import {
   LockIcon,
   ArrowRightIcon,
   RefreshCwIcon,
+  StoreIcon,
+  RocketIcon,
+  Building2Icon,
+  GlobeIcon,
+  GraduationCapIcon,
+  ZapIcon,
+  BriefcaseIcon,
+  TrophyIcon,
+  PaletteIcon,
+  SlidersIcon,
 } from '@/components/icons';
 import { trackEvent } from '@/lib/analytics';
 
 // Preset Chips for Service
 const SERVICE_CHIPS = [
-  'Video Editing Reels',
-  'Desain Grafis Konten',
-  'Coding Web / Landing Page',
+  'Editing Video Reels / TikTok',
+  'Desain Feed Instagram',
+  'Landing Page Web UMKM',
   'Data Entry Spreadsheet',
-  'Copywriting Caption',
+  'Copywriting Caption Sosmed',
+];
+
+// Tactile Experience Options
+const EXPERIENCE_OPTIONS = [
+  {
+    id: 'belum_pernah',
+    title: 'Baru Mulai',
+    subtitle: 'Belum pernah dapat bayaran jasa',
+    icon: GraduationCapIcon,
+    tag: 'Start',
+  },
+  {
+    id: 'kurang_1_tahun',
+    title: '< 1 Tahun',
+    subtitle: 'Sedang bangun jam terbang',
+    icon: SparklesIcon,
+    tag: 'Eksplorasi',
+  },
+  {
+    id: '1_3_tahun',
+    title: '1–3 Tahun',
+    subtitle: 'Rutin garap proyek klien',
+    icon: ZapIcon,
+    tag: 'Menengah',
+  },
+  {
+    id: 'lebih_3_tahun',
+    title: '> 3 Tahun',
+    subtitle: 'Reputasi & portofolio matang',
+    icon: TrophyIcon,
+    tag: 'Mahir',
+  },
+];
+
+// Tactile Client Segment Options
+const CLIENT_OPTIONS = [
+  {
+    id: 'umkm',
+    title: 'UMKM & Perorangan',
+    subtitle: 'Budget efisien, keputusan cepat',
+    icon: StoreIcon,
+    tag: 'Lokal',
+  },
+  {
+    id: 'startup',
+    title: 'Brand & Startup',
+    subtitle: 'Fokus konversi & visual estetik',
+    icon: RocketIcon,
+    tag: 'Agil',
+  },
+  {
+    id: 'corporate',
+    title: 'Korporasi / PT',
+    subtitle: 'Budget stabil, butuh SOP resmi',
+    icon: Building2Icon,
+    tag: 'Resmi',
+  },
+  {
+    id: 'overseas',
+    title: 'Klien Luar Negeri',
+    subtitle: 'Standar global, bayar valas ($)',
+    icon: GlobeIcon,
+    tag: 'Global',
+  },
+];
+
+// Tactile Proof / Portfolio Options
+const PROOF_OPTIONS = [
+  {
+    id: 'belum_ada',
+    title: 'Belum Ada Bukti',
+    subtitle: 'Baru ingin mencari klien perdana',
+    icon: AlertCircleIcon,
+  },
+  {
+    id: 'latihan',
+    title: 'Karya Latihan / Mandiri',
+    subtitle: 'Punya karya pribadi atau studi tiru',
+    icon: PaletteIcon,
+  },
+  {
+    id: '1_3_proyek',
+    title: '1–3 Proyek untuk Klien',
+    subtitle: 'Pernah tuntaskan pekerjaan nyata',
+    icon: BriefcaseIcon,
+  },
+  {
+    id: '4_plus_proyek',
+    title: '4+ Proyek / Klien Tetap',
+    subtitle: 'Rekam jejak dan testimoni kuat',
+    icon: TrophyIcon,
+  },
 ];
 
 // Preset Targets Net
 const NET_TARGET_PRESETS = [
-  { label: '3 jt', value: 3_000_000 },
-  { label: '5 jt', value: 5_000_000 },
-  { label: '8 jt', value: 8_000_000 },
-  { label: '10 jt', value: 10_000_000 },
+  { label: 'Rp 3 Jt', value: 3_000_000 },
+  { label: 'Rp 5 Jt (Populer)', value: 5_000_000 },
+  { label: 'Rp 8 Jt', value: 8_000_000 },
+  { label: 'Rp 12 Jt', value: 12_000_000 },
+  { label: 'Rp 20 Jt', value: 20_000_000 },
 ];
 
 function formatRupiah(num: number): string {
@@ -282,27 +385,64 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
 
       <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full">
         {/* Header Title */}
-        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 no-print">
+        <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8 no-print">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E8F5F3] text-[#0A3638] text-xs font-semibold mb-3 border border-[#CBE5E1]">
-            <CalculatorIcon className="w-3.5 h-3.5 text-[#0D9488]" />
-            <span>Wizard 2 Langkah Sederhana</span>
+            <SparklesIcon className="w-3.5 h-3.5 text-[#0D9488]" />
+            <span>Kalkulator Rate Freelance Objektif</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-extrabold text-[#0A3638] tracking-tight mb-2">
             Hitung Rate & Batas Aman Jasamu
           </h1>
           <p className="text-xs sm:text-sm text-[#526A6B]">
-            Isi profil jasamu di bawah. Engine deterministik kami akan menghitung floor price, paket tarif 3 level, dan script negosiasi taktis.
+            Bukan sekadar tebak harga. Dapatkan rekomendasi floor rate aman, 3 level paket harga, dan script negosiasi taktis siap kirim.
           </p>
         </div>
 
+        {/* LIVE SIMULATION HUD (Studio Deck) */}
+        <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0A3638] to-[#114E52] text-white shadow-card relative overflow-hidden no-print">
+          <div className="absolute right-0 top-0 translate-x-8 -translate-y-8 w-48 h-48 bg-[#2DD4BF]/15 rounded-full blur-2xl pointer-events-none" />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center shrink-0">
+                <CalculatorIcon className="w-5 h-5 text-[#2DD4BF]" />
+              </div>
+              <div>
+                <span className="text-[10px] tracking-wider uppercase font-bold text-[#A3D9D0]">
+                  Simulasi Kapasitas Real-Time
+                </span>
+                <div className="text-base sm:text-lg font-extrabold flex items-center gap-2">
+                  <span>{formatRupiah(targetNet)}</span>
+                  <span className="text-xs font-normal text-white/70">/ bln (Target Bersih)</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:flex sm:items-center gap-3 sm:gap-6 text-xs w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-white/10">
+              <div className="bg-white/5 sm:bg-transparent p-2 sm:p-0 rounded-lg">
+                <span className="text-[10px] text-white/60 block">Waktu Proyek Efektif</span>
+                <span className="font-bold text-[#2DD4BF] text-sm">
+                  ~{Math.round(hoursPerDay * workDays * billableRatio)} jam/bln
+                </span>
+              </div>
+              <div className="bg-white/5 sm:bg-transparent p-2 sm:p-0 rounded-lg">
+                <span className="text-[10px] text-white/60 block">Estimasi Floor Per Jam</span>
+                <span className="font-bold text-white text-sm">
+                  ~{formatRupiah(Math.round(((targetNet + overhead) / (1 - bufferPct)) / Math.max(1, hoursPerDay * workDays * billableRatio)))}/jam
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Wizard Form */}
-        <div className="bg-white rounded-2xl border border-[#E2ECE9] shadow-subtle p-5 sm:p-8 mb-8 no-print">
-          <form onSubmit={handleCalculate} className="space-y-6">
+        <div className="bg-white rounded-3xl border border-[#E2ECE9] shadow-subtle p-5 sm:p-8 mb-8 no-print">
+          <form onSubmit={handleCalculate} className="space-y-7">
             {/* Field 1: Jasa */}
             <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-xs sm:text-sm font-bold text-[#0A3638]">
-                  1. Nama Jasa Freelance <span className="text-red-500">*</span>
+              <div className="flex items-center justify-between mb-2">
+                <label className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0A3638]">
+                  <span className="w-5 h-5 rounded-full bg-[#0A3638] text-white text-[11px] flex items-center justify-center font-mono">1</span>
+                  <span>Nama Jasa Freelance <span className="text-red-500">*</span></span>
                 </label>
                 <span className="text-[11px] text-[#526A6B]">Maks. 80 karakter</span>
               </div>
@@ -312,21 +452,21 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
                 value={service}
                 onChange={(e) => setService(e.target.value)}
                 placeholder="Contoh: editing video Reels untuk UMKM"
-                className="w-full px-4 py-3 rounded-xl border border-[#CBE5E1] bg-[#F8FBFA] focus:bg-white focus:outline-none focus:border-[#0A3638] focus:ring-2 focus:ring-[#0A3638]/10 text-sm text-[#0A3638] placeholder:text-[#526A6B]/50"
+                className="w-full px-4 py-3 rounded-xl border border-[#CBE5E1] bg-[#F8FBFA] focus:bg-white focus:outline-none focus:border-[#0A3638] focus:ring-2 focus:ring-[#0A3638]/10 text-sm text-[#0A3638] font-medium placeholder:text-[#526A6B]/50 transition-all"
               />
-              <p className="text-[11px] text-[#526A6B] mt-1.5 font-medium">
+              <p className="text-[11px] text-[#526A6B] mt-2 font-medium">
                 Tip: Makin spesifik keahlian dan segmenmu, makin akurat perhitungan rate pasarnya.
               </p>
 
               {/* Quick Chips */}
               <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2.5">
-                <span className="text-[11px] text-[#526A6B] self-center mr-1">Contoh:</span>
+                <span className="text-[11px] text-[#526A6B] self-center mr-1">Rekomendasi:</span>
                 {SERVICE_CHIPS.map((chip) => (
                   <button
                     key={chip}
                     type="button"
                     onClick={() => setService(chip)}
-                    className="text-[11px] px-2.5 py-1 rounded-lg bg-[#E8F5F3] hover:bg-[#d5eee9] text-[#0A3638] font-medium border border-[#CBE5E1] transition-colors"
+                    className="text-[11px] px-3 py-1 rounded-lg bg-[#E8F5F3] hover:bg-[#d5eee9] text-[#0A3638] font-semibold border border-[#CBE5E1] transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
                     + {chip}
                   </button>
@@ -334,55 +474,113 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
               </div>
             </div>
 
-            {/* Field 2 & 3: Pengalaman & Target Klien (2 Columns on Desktop) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {/* Field 2: Pengalaman */}
-              <div>
-                <label className="block text-xs sm:text-sm font-bold text-[#0A3638] mb-1.5">
-                  2. Pengalaman Freelance
+            {/* Field 2: Pengalaman Freelance (Tactile 4-Grid Cards) */}
+            <div>
+              <div className="flex items-center justify-between mb-2.5">
+                <label className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0A3638]">
+                  <span className="w-5 h-5 rounded-full bg-[#0A3638] text-white text-[11px] flex items-center justify-center font-mono">2</span>
+                  <span>Pengalaman & Jam Terbang</span>
                 </label>
-                <select
-                  value={experience}
-                  onChange={(e) => setExperience(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#CBE5E1] bg-[#F8FBFA] focus:bg-white focus:outline-none focus:border-[#0A3638] text-xs sm:text-sm text-[#0A3638] font-medium"
-                >
-                  <option value="belum_pernah">Belum pernah dibayar</option>
-                  <option value="kurang_1_tahun">Kurang dari 1 tahun</option>
-                  <option value="1_3_tahun">1–3 tahun</option>
-                  <option value="lebih_3_tahun">Lebih dari 3 tahun</option>
-                </select>
+                <span className="text-[11px] text-[#526A6B]">Pilih tingkat pengalamanmu</span>
               </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {EXPERIENCE_OPTIONS.map((opt) => {
+                  const Icon = opt.icon;
+                  const isSelected = experience === opt.id;
+                  return (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => setExperience(opt.id)}
+                      className={`p-3.5 rounded-2xl border text-left transition-all duration-200 relative flex flex-col justify-between group ${
+                        isSelected
+                          ? 'border-[#0A3638] bg-[#E8F5F3] shadow-sm ring-2 ring-[#0A3638]/20 scale-[1.01]'
+                          : 'border-[#E2ECE9] bg-white hover:border-[#CBE5E1] hover:bg-[#F8FBFA]'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                          isSelected ? 'bg-[#0A3638] text-white' : 'bg-[#E8F5F3] text-[#0A3638] group-hover:bg-[#d5eee9]'
+                        }`}>
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          isSelected ? 'bg-[#0A3638] text-white' : 'bg-gray-100 text-[#526A6B]'
+                        }`}>
+                          {opt.tag}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="font-bold text-xs sm:text-sm text-[#0A3638]">{opt.title}</div>
+                        <div className="text-[11px] text-[#526A6B] mt-0.5 leading-snug">{opt.subtitle}</div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-              {/* Field 3: Target Klien */}
-              <div>
-                <label className="block text-xs sm:text-sm font-bold text-[#0A3638] mb-1.5">
-                  3. Target Segmen Klien
+            {/* Field 3: Target Segmen Klien (Tactile 4-Grid Cards) */}
+            <div>
+              <div className="flex items-center justify-between mb-2.5">
+                <label className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0A3638]">
+                  <span className="w-5 h-5 rounded-full bg-[#0A3638] text-white text-[11px] flex items-center justify-center font-mono">3</span>
+                  <span>Target Segmen Klien</span>
                 </label>
-                <select
-                  value={targetClient}
-                  onChange={(e) => setTargetClient(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#CBE5E1] bg-[#F8FBFA] focus:bg-white focus:outline-none focus:border-[#0A3638] text-xs sm:text-sm text-[#0A3638] font-medium"
-                >
-                  <option value="umkm">Perorangan atau UMKM</option>
-                  <option value="startup">Brand atau Startup</option>
-                  <option value="corporate">Perusahaan Besar / Korporasi</option>
-                  <option value="overseas">Klien Luar Negeri (Global)</option>
-                </select>
+                <span className="text-[11px] text-[#526A6B]">Menentukan kelipatan daya beli</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {CLIENT_OPTIONS.map((opt) => {
+                  const Icon = opt.icon;
+                  const isSelected = targetClient === opt.id;
+                  return (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => setTargetClient(opt.id)}
+                      className={`p-3.5 rounded-2xl border text-left transition-all duration-200 relative flex flex-col justify-between group ${
+                        isSelected
+                          ? 'border-[#0A3638] bg-[#E8F5F3] shadow-sm ring-2 ring-[#0A3638]/20 scale-[1.01]'
+                          : 'border-[#E2ECE9] bg-white hover:border-[#CBE5E1] hover:bg-[#F8FBFA]'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                          isSelected ? 'bg-[#0A3638] text-white' : 'bg-[#E8F5F3] text-[#0A3638] group-hover:bg-[#d5eee9]'
+                        }`}>
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          isSelected ? 'bg-[#0A3638] text-white' : 'bg-gray-100 text-[#526A6B]'
+                        }`}>
+                          {opt.tag}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="font-bold text-xs sm:text-sm text-[#0A3638]">{opt.title}</div>
+                        <div className="text-[11px] text-[#526A6B] mt-0.5 leading-snug">{opt.subtitle}</div>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
             {/* Field 4 & 5: Target Net Income & Jam Kerja per Hari */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
               {/* Field 4: Target Pendapatan Bersih */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-xs sm:text-sm font-bold text-[#0A3638]">
-                    4. Target Pendapatan Bersih / Bulan
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#F8FBFA] border border-[#E2ECE9]">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0A3638]">
+                    <span className="w-5 h-5 rounded-full bg-[#0A3638] text-white text-[11px] flex items-center justify-center font-mono">4</span>
+                    <span>Target Bersih / Bulan</span>
                   </label>
-                  <span className="text-[11px] text-[#526A6B]">Min Rp 500rb</span>
+                  <span className="text-[10px] font-bold text-[#0D9488] bg-[#E8F5F3] px-2 py-0.5 rounded-md">
+                    Take Home Pay
+                  </span>
                 </div>
-                <div className="relative">
-                  <span className="absolute left-3.5 top-2.5 text-xs sm:text-sm text-[#526A6B] font-semibold">
+                <div className="relative mb-3">
+                  <span className="absolute left-3.5 top-3 text-xs sm:text-sm text-[#526A6B] font-bold">
                     Rp
                   </span>
                   <input
@@ -391,20 +589,20 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
                     min={500000}
                     value={targetNet}
                     onChange={(e) => setTargetNet(Number(e.target.value))}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#CBE5E1] bg-[#F8FBFA] focus:bg-white focus:outline-none focus:border-[#0A3638] text-xs sm:text-sm text-[#0A3638] font-bold"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#CBE5E1] bg-white focus:outline-none focus:border-[#0A3638] focus:ring-2 focus:ring-[#0A3638]/10 text-sm sm:text-base text-[#0A3638] font-extrabold"
                   />
                 </div>
                 {/* Preset Chips */}
-                <div className="flex gap-1.5 mt-2">
+                <div className="flex flex-wrap gap-1.5">
                   {NET_TARGET_PRESETS.map((p) => (
                     <button
                       key={p.label}
                       type="button"
                       onClick={() => setTargetNet(p.value)}
-                      className={`text-[10px] sm:text-[11px] px-2 py-1 rounded-md border transition-colors ${
+                      className={`text-[10px] sm:text-[11px] px-2.5 py-1 rounded-lg border transition-all ${
                         targetNet === p.value
-                          ? 'bg-[#0A3638] text-white border-[#0A3638] font-bold'
-                          : 'bg-[#E8F5F3] text-[#0A3638] border-[#CBE5E1] hover:bg-[#d5eee9]'
+                          ? 'bg-[#0A3638] text-white border-[#0A3638] font-bold shadow-xs'
+                          : 'bg-white text-[#0A3638] border-[#CBE5E1] hover:bg-[#E8F5F3]'
                       }`}
                     >
                       {p.label}
@@ -413,53 +611,96 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
                 </div>
               </div>
 
-              {/* Field 5: Jam Kerja per Hari (Slider) */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-xs sm:text-sm font-bold text-[#0A3638]">
-                    5. Jam Kerja per Hari
+              {/* Field 5: Jam Kerja per Hari (Slider & Gauge) */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#F8FBFA] border border-[#E2ECE9]">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0A3638]">
+                    <span className="w-5 h-5 rounded-full bg-[#0A3638] text-white text-[11px] flex items-center justify-center font-mono">5</span>
+                    <span>Jam Kerja per Hari</span>
                   </label>
-                  <span className="text-xs font-bold text-[#0D9488] bg-[#E8F5F3] px-2 py-0.5 rounded-md">
+                  <span className="text-xs font-bold text-white bg-[#0A3638] px-2.5 py-0.5 rounded-md shadow-xs">
                     {hoursPerDay} jam / hari
                   </span>
                 </div>
+                
                 <input
                   type="range"
                   min={1}
                   max={12}
                   value={hoursPerDay}
                   onChange={(e) => setHoursPerDay(Number(e.target.value))}
-                  className="w-full h-2 bg-[#CBE5E1] rounded-lg appearance-none cursor-pointer accent-[#0A3638] mt-3"
+                  className="w-full h-2.5 bg-[#CBE5E1] rounded-lg appearance-none cursor-pointer accent-[#0A3638] my-3"
                 />
-                <div className="flex justify-between text-[10px] text-[#526A6B] mt-1.5">
-                  <span>1 jam (Part-time)</span>
-                  <span>6 jam (Default)</span>
-                  <span>12 jam (Full-time lembur)</span>
+
+                <div className="flex justify-between items-center text-[10px] text-[#526A6B]">
+                  <span>1 Jam (Sambilan)</span>
+                  <span className="font-bold text-[#0A3638]">
+                    {hoursPerDay <= 4 ? 'Part-time / Santai' : hoursPerDay <= 7 ? 'Standar Ideal Freelancer' : 'Intensitas Penuh / Lembur'}
+                  </span>
+                  <span>12 Jam (Maks)</span>
+                </div>
+
+                {/* Quick hour chips */}
+                <div className="flex gap-2 mt-3 pt-2 border-t border-[#E2ECE9]">
+                  {[4, 6, 8].map((h) => (
+                    <button
+                      key={h}
+                      type="button"
+                      onClick={() => setHoursPerDay(h)}
+                      className={`text-[10px] px-2.5 py-1 rounded-lg border font-medium transition-all ${
+                        hoursPerDay === h
+                          ? 'bg-[#0A3638] text-white border-[#0A3638] font-bold'
+                          : 'bg-white text-[#526A6B] border-[#CBE5E1] hover:bg-[#E8F5F3]'
+                      }`}
+                    >
+                      {h} Jam {h === 6 ? '(Rekomendasi)' : ''}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
 
-            {/* Field 6: Bukti Kerja & Portfolio */}
+            {/* Field 6: Bukti Kerja & Portfolio (Tactile 4-Grid Cards) */}
             <div>
-              <label className="block text-xs sm:text-sm font-bold text-[#0A3638] mb-1.5">
-                6. Bukti Kerja & Portofolio Saat Ini
-              </label>
-              <select
-                value={proof}
-                onChange={(e) => setProof(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#CBE5E1] bg-[#F8FBFA] focus:bg-white focus:outline-none focus:border-[#0A3638] text-xs sm:text-sm text-[#0A3638] font-medium mb-3"
-              >
-                <option value="belum_ada">Belum ada portofolio</option>
-                <option value="latihan">Ada proyek latihan atau karya pribadi</option>
-                <option value="1_3_proyek">Ada 1–3 proyek untuk orang lain / klien</option>
-                <option value="4_plus_proyek">Ada 4+ proyek atau punya klien tetap</option>
-              </select>
+              <div className="flex items-center justify-between mb-2.5">
+                <label className="flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0A3638]">
+                  <span className="w-5 h-5 rounded-full bg-[#0A3638] text-white text-[11px] flex items-center justify-center font-mono">6</span>
+                  <span>Bukti Kerja & Portofolio Saat Ini</span>
+                </label>
+                <span className="text-[11px] text-[#526A6B]">Tentukan kesiapan negosiasi</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+                {PROOF_OPTIONS.map((opt) => {
+                  const Icon = opt.icon;
+                  const isSelected = proof === opt.id;
+                  return (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => setProof(opt.id)}
+                      className={`p-3.5 rounded-2xl border text-left transition-all duration-200 relative flex flex-col justify-between group ${
+                        isSelected
+                          ? 'border-[#0A3638] bg-[#E8F5F3] shadow-sm ring-2 ring-[#0A3638]/20 scale-[1.01]'
+                          : 'border-[#E2ECE9] bg-white hover:border-[#CBE5E1] hover:bg-[#F8FBFA]'
+                      }`}
+                    >
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center mb-2 bg-[#E8F5F3] text-[#0A3638]">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-xs sm:text-sm text-[#0A3638]">{opt.title}</div>
+                        <div className="text-[11px] text-[#526A6B] mt-0.5 leading-snug">{opt.subtitle}</div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
 
               {/* 2 Optional Fields for Story & Link */}
-              <div className="space-y-3 pt-1">
+              <div className="p-4 rounded-2xl bg-[#F8FBFA] border border-[#E2ECE9] space-y-3">
                 <div>
-                  <div className="flex justify-between text-[11px] text-[#526A6B] mb-1 font-medium">
-                    <span>Ceritakan 1–2 proyek terbaikmu (Opsional)</span>
+                  <div className="flex justify-between text-[11px] text-[#526A6B] mb-1 font-semibold">
+                    <span>Ceritakan 1–2 hasil karya atau proyek terbaikmu (Opsional)</span>
                     <span>{projectStory.length}/400</span>
                   </div>
                   <textarea
@@ -467,104 +708,187 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
                     rows={2}
                     value={projectStory}
                     onChange={(e) => setProjectStory(e.target.value)}
-                    placeholder="Contoh: Mengedit 10 video Reels makanan yang menaikkan views klien hingga 80.000 penonton..."
-                    className="w-full px-3.5 py-2 rounded-xl border border-[#CBE5E1] bg-[#F8FBFA] focus:bg-white focus:outline-none focus:border-[#0A3638] text-xs sm:text-sm text-[#0A3638] placeholder:text-[#526A6B]/50"
+                    placeholder="Contoh: Mengedit 10 video Reels edukasi yang menaikkan views klien hingga 80.000 penonton..."
+                    className="w-full px-3.5 py-2 rounded-xl border border-[#CBE5E1] bg-white focus:outline-none focus:border-[#0A3638] text-xs sm:text-sm text-[#0A3638] placeholder:text-[#526A6B]/50"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] text-[#526A6B] mb-1 font-medium">
-                    Link Portofolio (Opsional, pastikan bisa dibuka publik)
+                  <label className="block text-[11px] text-[#526A6B] mb-1 font-semibold">
+                    Link Portofolio (Opsional, Google Drive / Behance / Web)
                   </label>
                   <input
                     type="url"
                     value={portfolioLink}
                     onChange={(e) => setPortfolioLink(e.target.value)}
                     placeholder="https://drive.google.com/... atau https://behance.net/..."
-                    className="w-full px-3.5 py-2 rounded-xl border border-[#CBE5E1] bg-[#F8FBFA] focus:bg-white focus:outline-none focus:border-[#0A3638] text-xs sm:text-sm text-[#0A3638] placeholder:text-[#526A6B]/50"
+                    className="w-full px-3.5 py-2 rounded-xl border border-[#CBE5E1] bg-white focus:outline-none focus:border-[#0A3638] text-xs sm:text-sm text-[#0A3638] placeholder:text-[#526A6B]/50"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Collapsed Panel: Asumsi Biaya & Waktu */}
-            <div className="border border-[#E2ECE9] rounded-xl overflow-hidden bg-[#F8FBFA]">
+            {/* Collapsed Panel: Asumsi Biaya & Waktu (Humanized) */}
+            <div className="border border-[#E2ECE9] rounded-2xl overflow-hidden bg-white shadow-xs">
               <button
                 type="button"
                 onClick={() => setShowAssumptions(!showAssumptions)}
-                className="w-full px-4 py-3 flex items-center justify-between text-xs sm:text-sm font-semibold text-[#0A3638] hover:bg-[#E8F5F3]/50 transition-colors"
+                className="w-full px-4 sm:px-5 py-3.5 flex items-center justify-between text-xs sm:text-sm font-bold text-[#0A3638] hover:bg-[#E8F5F3]/50 transition-colors"
               >
-                <div className="flex items-center gap-2">
-                  <CoinsIcon className="w-4 h-4 text-[#0D9488]" />
-                  <span>Panel Asumsi Biaya & Waktu (Opsional)</span>
+                <div className="flex items-center gap-2.5">
+                  <SlidersIcon className="w-4 h-4 text-[#0D9488]" />
+                  <span>⚙️ Atur Asumsi Kerja & Modal Bulanan (Opsional)</span>
                 </div>
-                {showAssumptions ? (
-                  <ChevronUpIcon className="w-4 h-4 text-[#526A6B]" />
-                ) : (
-                  <ChevronDownIcon className="w-4 h-4 text-[#526A6B]" />
-                )}
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#526A6B]">
+                  <span>{showAssumptions ? 'Tutup' : 'Sesuaikan'}</span>
+                  {showAssumptions ? (
+                    <ChevronUpIcon className="w-4 h-4 text-[#526A6B]" />
+                  ) : (
+                    <ChevronDownIcon className="w-4 h-4 text-[#526A6B]" />
+                  )}
+                </div>
               </button>
 
               {showAssumptions && (
-                <div className="p-4 border-t border-[#E2ECE9] bg-white grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                  <div>
-                    <label className="block font-medium text-[#526A6B] mb-1">
-                      Overhead Bulanan (Listrik, Wifi, Software)
-                    </label>
-                    <input
-                      type="number"
-                      value={overhead}
-                      onChange={(e) => setOverhead(Number(e.target.value))}
-                      className="w-full px-3 py-1.5 rounded-lg border border-[#CBE5E1] text-[#0A3638] font-semibold"
-                    />
-                    <span className="text-[10px] text-[#526A6B]">Default: Rp 500.000</span>
-                  </div>
+                <div className="p-4 sm:p-6 border-t border-[#E2ECE9] bg-[#F8FBFA] space-y-6 text-xs">
+                  <p className="text-[11px] text-[#526A6B] leading-relaxed">
+                    Semua angka di bawah sudah kami isi otomatis dengan standar wajar freelancer Indonesia. Silakan sesuaikan jika kondisimu berbeda.
+                  </p>
 
-                  <div>
-                    <label className="block font-medium text-[#526A6B] mb-1">
-                      Buffer Pajak & Dana Darurat
-                    </label>
-                    <input
-                      type="number"
-                      step={0.01}
-                      min={0.05}
-                      max={0.5}
-                      value={bufferPct}
-                      onChange={(e) => setBufferPct(Number(e.target.value))}
-                      className="w-full px-3 py-1.5 rounded-lg border border-[#CBE5E1] text-[#0A3638] font-semibold"
-                    />
-                    <span className="text-[10px] text-[#526A6B]">Default: 15% (0.15)</span>
-                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    {/* Item 1: Modal & Kuota Bulanan */}
+                    <div className="p-3.5 rounded-xl bg-white border border-[#CBE5E1]">
+                      <label className="block font-bold text-[#0A3638] mb-1">
+                        1. Biaya Modal & Kuota Bulanan
+                      </label>
+                      <p className="text-[11px] text-[#526A6B] mb-2 leading-relaxed">
+                        Tagihan internet, listrik kerja, dan langganan software pendukung (Canva, Adobe, dll).
+                      </p>
+                      <div className="relative mb-2">
+                        <span className="absolute left-3 top-2 text-[#526A6B] font-bold">Rp</span>
+                        <input
+                          type="number"
+                          step={50000}
+                          value={overhead}
+                          onChange={(e) => setOverhead(Number(e.target.value))}
+                          className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-[#CBE5E1] text-[#0A3638] font-bold text-xs"
+                        />
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {[250000, 500000, 1000000].map((v) => (
+                          <button
+                            key={v}
+                            type="button"
+                            onClick={() => setOverhead(v)}
+                            className={`text-[10px] px-2 py-0.5 rounded border ${
+                              overhead === v ? 'bg-[#0A3638] text-white border-[#0A3638]' : 'bg-[#E8F5F3] text-[#0A3638] border-[#CBE5E1]'
+                            }`}
+                          >
+                            Rp {v >= 1000000 ? `${v / 1000000} Jt` : `${v / 1000} Rb`}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
 
-                  <div>
-                    <label className="block font-medium text-[#526A6B] mb-1">
-                      Hari Kerja per Bulan
-                    </label>
-                    <input
-                      type="number"
-                      min={10}
-                      max={31}
-                      value={workDays}
-                      onChange={(e) => setWorkDays(Number(e.target.value))}
-                      className="w-full px-3 py-1.5 rounded-lg border border-[#CBE5E1] text-[#0A3638] font-semibold"
-                    />
-                    <span className="text-[10px] text-[#526A6B]">Default: 20 hari (Senin–Jumat)</span>
-                  </div>
+                    {/* Item 2: Dana Cadangan & Sakit (Safety Net) */}
+                    <div className="p-3.5 rounded-xl bg-white border border-[#CBE5E1]">
+                      <label className="block font-bold text-[#0A3638] mb-1">
+                        2. Dana Cadangan & Sakit (Safety Net)
+                      </label>
+                      <p className="text-[11px] text-[#526A6B] mb-2 leading-relaxed">
+                        Cadangan ekstra jaga-jaga kalau ada bulan sepi proyek, butuh libur, atau bayar pajak.
+                      </p>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {[
+                          { label: '10% (Ringan)', val: 0.10 },
+                          { label: '15% (Ideal Standar)', val: 0.15 },
+                          { label: '20% (Aman & Nyaman)', val: 0.20 },
+                          { label: '25% (Konservatif)', val: 0.25 },
+                        ].map((b) => (
+                          <button
+                            key={b.val}
+                            type="button"
+                            onClick={() => setBufferPct(b.val)}
+                            className={`px-2.5 py-1.5 rounded-lg border text-left text-[11px] font-semibold transition-all ${
+                              bufferPct === b.val
+                                ? 'bg-[#0A3638] text-white border-[#0A3638] shadow-xs'
+                                : 'bg-[#F8FBFA] text-[#0A3638] border-[#CBE5E1] hover:bg-[#E8F5F3]'
+                            }`}
+                          >
+                            {b.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
 
-                  <div>
-                    <label className="block font-medium text-[#526A6B] mb-1">
-                      Rasio Jam Billable (Waktu Efektif Kerja)
-                    </label>
-                    <input
-                      type="number"
-                      step={0.05}
-                      min={0.2}
-                      max={0.9}
-                      value={billableRatio}
-                      onChange={(e) => setBillableRatio(Number(e.target.value))}
-                      className="w-full px-3 py-1.5 rounded-lg border border-[#CBE5E1] text-[#0A3638] font-semibold"
-                    />
-                    <span className="text-[10px] text-[#526A6B]">Default: 60% (sisanya untuk admin/revisi)</span>
+                    {/* Item 3: Porsi Waktu Fokus Garap Proyek */}
+                    <div className="p-3.5 rounded-xl bg-white border border-[#CBE5E1]">
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="font-bold text-[#0A3638]">
+                          3. Porsi Waktu Fokus Proyek
+                        </label>
+                        <span className="text-[11px] font-bold text-[#0D9488]">
+                          {Math.round(billableRatio * 100)}% Waktu Aktif
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-[#526A6B] mb-2 leading-relaxed">
+                        Sebagai freelancer, tidak 100% jam kerjamu dibayar. Sebagian waktu terpakai untuk riset, revisi, chat klien, dan proposal.
+                      </p>
+                      <div className="grid grid-cols-2 gap-1.5 mb-2">
+                        {[
+                          { label: '50% (Banyak Riset/Admin)', val: 0.50 },
+                          { label: '60% (Standar Freelance)', val: 0.60 },
+                          { label: '70% (Fokus Cepat)', val: 0.70 },
+                          { label: '80% (Hampir Nonstop)', val: 0.80 },
+                        ].map((r) => (
+                          <button
+                            key={r.val}
+                            type="button"
+                            onClick={() => setBillableRatio(r.val)}
+                            className={`px-2.5 py-1.5 rounded-lg border text-left text-[11px] font-semibold transition-all ${
+                              billableRatio === r.val
+                                ? 'bg-[#0A3638] text-white border-[#0A3638] shadow-xs'
+                                : 'bg-[#F8FBFA] text-[#0A3638] border-[#CBE5E1] hover:bg-[#E8F5F3]'
+                            }`}
+                          >
+                            {r.label}
+                          </button>
+                        ))}
+                      </div>
+                      <p className="text-[10px] text-[#0D9488] font-medium bg-[#E8F5F3] p-2 rounded-lg">
+                        💡 Dari {hoursPerDay} jam kerja/hari, kamu aktif dibayar ~{(hoursPerDay * billableRatio).toFixed(1)} jam/hari untuk proyek klien. Sisanya ({(hoursPerDay * (1 - billableRatio)).toFixed(1)} jam) untuk admin & riset.
+                      </p>
+                    </div>
+
+                    {/* Item 4: Hari Kerja per Bulan */}
+                    <div className="p-3.5 rounded-xl bg-white border border-[#CBE5E1]">
+                      <label className="block font-bold text-[#0A3638] mb-1">
+                        4. Hari Kerja per Bulan
+                      </label>
+                      <p className="text-[11px] text-[#526A6B] mb-2 leading-relaxed">
+                        Berapa hari dalam sebulan kamu membuka layanan freelance untuk klien?
+                      </p>
+                      <div className="space-y-1.5">
+                        {[
+                          { label: '16 Hari (4 hari/minggu · Santai)', val: 16 },
+                          { label: '20 Hari (Senin–Jumat · Standar Rekomendasi)', val: 20 },
+                          { label: '24 Hari (Senin–Sabtu · Padat & Sibuk)', val: 24 },
+                        ].map((d) => (
+                          <button
+                            key={d.val}
+                            type="button"
+                            onClick={() => setWorkDays(d.val)}
+                            className={`w-full px-3 py-1.5 rounded-lg border text-left text-[11px] font-semibold transition-all ${
+                              workDays === d.val
+                                ? 'bg-[#0A3638] text-white border-[#0A3638] shadow-xs'
+                                : 'bg-[#F8FBFA] text-[#0A3638] border-[#CBE5E1] hover:bg-[#E8F5F3]'
+                            }`}
+                          >
+                            {d.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -572,9 +896,9 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
 
             {/* Error Message */}
             {errorMsg && (
-              <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-                <AlertCircleIcon className="w-4 h-4 shrink-0 text-red-600" />
-                <span>{errorMsg}</span>
+              <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2.5">
+                <AlertCircleIcon className="w-5 h-5 shrink-0 text-red-600" />
+                <span className="font-medium">{errorMsg}</span>
               </div>
             )}
 
@@ -582,17 +906,18 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 rounded-xl bg-[#0A3638] hover:bg-[#07282A] text-white font-bold text-base shadow-card hover:shadow-hover transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full py-4 sm:py-5 rounded-2xl bg-[#0A3638] hover:bg-[#07282A] text-white font-extrabold text-sm sm:text-base shadow-card hover:shadow-hover transition-all flex items-center justify-center gap-3 disabled:opacity-60 relative overflow-hidden group cursor-pointer"
             >
+              <div className="absolute inset-0 w-1/2 h-full bg-white/10 -skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-1000 ease-out" />
               {loading ? (
                 <>
                   <RefreshCwIcon className="w-5 h-5 animate-spin text-[#2DD4BF]" />
-                  <span>Menganalisis & Menghitung Rate...</span>
+                  <span>Sedang Menganalisis Pasar & Menghitung Rate...</span>
                 </>
               ) : (
                 <>
-                  <span>Hitung Rate Saya Sekarang</span>
-                  <ArrowRightIcon className="w-5 h-5" />
+                  <span>Hitung Rate & Rekomendasi Harga Saya</span>
+                  <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform text-[#2DD4BF]" />
                 </>
               )}
             </button>
