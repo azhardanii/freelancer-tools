@@ -287,7 +287,7 @@ export default function ToolPage() {
     const handleScroll = () => {
       if (!hudRef.current) return;
       const rect = hudRef.current.getBoundingClientRect();
-      setIsHudSticky(rect.top <= 66);
+      setIsHudSticky(rect.top <= 0);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -402,7 +402,7 @@ export default function ToolPage() {
 • Paket Premium: ${formatRupiah(pricing.packages.premium)} / ${serviceParams.pricingUnit}
 
 💡 Analisis Kapasitas:
-• Floor Rate Aman: ${formatRupiah(floor.floorPerHour)}/jam
+• Batas Tarif Minimum Aman: ${formatRupiah(floor.floorPerHour)}/jam
 • Target Bulanan: Butuh ${gap.unitsNeeded} unit (Kapasitas: ${gap.unitsCapacity} unit)
 Status: ${gap.feasible ? 'Target Feasible (Aman)' : 'Perlu Penyesuaian Strategi'}
 
@@ -541,7 +541,7 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
             <div className="h-10 flex items-center justify-center text-xs font-semibold text-[#526A6B] px-2 transition-all">
               {loadingStep === 1 && '🤖 Menghubungkan Engine AI & Normalisasi Jasa...'}
               {loadingStep === 2 && '📊 Mencocokkan Benchmark Riset Pasar Freelance Indonesia...'}
-              {loadingStep === 3 && '🛡️ Menghitung Batas Bawah Floor Rate Deterministik...'}
+              {loadingStep === 3 && '🛡️ Menghitung Batas Bawah Tarif Minimum Aman...'}
               {loadingStep === 4 && '✨ Meracik 3 Paket Harga & Taktik Negosiasi...'}
             </div>
 
@@ -576,7 +576,7 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
                 Hitung Rate &amp; Batas Aman Jasamu
               </h1>
               <p className="text-xs sm:text-sm text-[#526A6B]">
-                Bukan sekadar tebak harga. Dapatkan rekomendasi floor rate aman, 3 level paket harga, dan script negosiasi taktis siap kirim.
+                Bukan sekadar tebak harga. Dapatkan rekomendasi tarif minimum aman, 3 level paket harga, dan script negosiasi taktis siap kirim.
               </p>
             </div>
 
@@ -600,60 +600,91 @@ Dihitung via FREELANCER TOOLS BY UQI (https://azhardanii.github.io)`;
               </div>
             )}
 
-            {/* LIVE SIMULATION HUD (Studio Deck) - Sticky When Scrolled */}
-            <div
-              ref={hudRef}
-              className={`sticky top-16 z-30 transition-all duration-300 no-print ${
-                isHudSticky
-                  ? 'mb-4 p-3 sm:p-4 rounded-2xl bg-[#0A3638]/95 backdrop-blur-md text-white shadow-2xl border-2 border-[#2DD4BF]/50 ring-4 ring-[#0A3638]/10'
-                  : 'mb-6 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-[#0A3638] to-[#114E52] text-white shadow-card border border-white/10'
-              }`}
-            >
-              <div className="absolute right-0 top-0 translate-x-8 -translate-y-8 w-48 h-48 bg-[#2DD4BF]/15 rounded-full blur-2xl pointer-events-none" />
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 relative z-10">
-                <div className="flex items-center gap-2.5 sm:gap-3">
-                  <div className={`rounded-xl bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center shrink-0 transition-all ${
-                    isHudSticky ? 'w-8 h-8 sm:w-10 sm:h-10' : 'w-10 h-10'
-                  }`}>
-                    <CalculatorIcon className={`text-[#2DD4BF] transition-all ${
-                      isHudSticky ? 'w-4 h-4 sm:w-5 sm:h-5' : 'w-5 h-5'
-                    }`} />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] tracking-wider uppercase font-extrabold text-[#A3D9D0]">
-                        Simulasi Kapasitas Real-Time
-                      </span>
-                      {isHudSticky && (
-                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[#2DD4BF]/20 text-[#2DD4BF] text-[9px] font-extrabold border border-[#2DD4BF]/40">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#2DD4BF] animate-pulse" />
-                          <span>Live Sync</span>
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-base sm:text-lg font-extrabold flex items-baseline gap-1.5 text-white">
-                      <span className="text-[#2DD4BF] tracking-tight">{formatRupiah(targetNet)}</span>
-                      <span className="text-xs font-normal text-white/70">/ bln (Target Bersih)</span>
-                    </div>
-                  </div>
-                </div>
+            {/* LIVE SIMULATION HUD - Fixed At Top 0 With Zero Margins */}
+            <div ref={hudRef} className="mb-6">
+              {/* Spacer mencegah layout shift ketika HUD menjadi fixed */}
+              {isHudSticky && <div className="h-24 sm:h-28" />}
 
-                <div className="grid grid-cols-2 sm:flex sm:items-center gap-3 sm:gap-6 text-xs w-full sm:w-auto pt-2.5 sm:pt-0 border-t sm:border-t-0 border-white/15">
-                  <div className="bg-white/5 sm:bg-transparent p-1.5 sm:p-0 rounded-lg">
-                    <span className="text-[10px] text-white/60 block">Waktu Proyek Efektif</span>
-                    <span className="font-bold text-[#2DD4BF] text-xs sm:text-sm">
-                      ~{Math.round(hoursPerDay * workDays * billableRatio)} jam/bln
-                    </span>
+              <div
+                className={`transition-all duration-200 no-print ${
+                  isHudSticky
+                    ? 'fixed top-0 left-0 right-0 z-50 w-full m-0 rounded-none bg-[#0A3638] text-white shadow-xl border-b border-[#2DD4BF]/40 py-2 px-3.5 sm:py-2.5 sm:px-6'
+                    : 'p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-[#0A3638] to-[#114E52] text-white shadow-card border border-white/10'
+                }`}
+              >
+                {!isHudSticky ? (
+                  /* ============= TAMPILAN NORMAL (BELUM DI-SCROLL) ============= */
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center shrink-0">
+                        <CalculatorIcon className="w-5 h-5 text-[#2DD4BF]" />
+                      </div>
+                      <div>
+                        <span className="text-[10px] tracking-wider uppercase font-bold text-[#A3D9D0]">
+                          Simulasi Kapasitas Real-Time
+                        </span>
+                        <div className="text-base sm:text-lg font-extrabold flex items-baseline gap-1.5 text-white">
+                          <span className="text-[#2DD4BF] tracking-tight">{formatRupiah(targetNet)}</span>
+                          <span className="text-xs font-normal text-white/70">/ bln (Target Bersih)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:flex sm:items-center gap-3 sm:gap-6 text-xs w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-white/15">
+                      <div className="bg-white/5 sm:bg-transparent p-2 sm:p-0 rounded-xl">
+                        <span className="text-[10px] text-white/60 block">Jam Kerja Produktif</span>
+                        <span className="font-bold text-[#2DD4BF] text-sm">
+                          {targetNet > 0 ? `~${Math.round(hoursPerDay * workDays * billableRatio)} jam/bln` : '0 jam/bln'}
+                        </span>
+                        <span className="text-[9px] text-white/50 block">fokus garap proyek</span>
+                      </div>
+                      <div className="bg-white/5 sm:bg-transparent p-2 sm:p-0 rounded-xl">
+                        <span className="text-[10px] text-white/60 block">Tarif Minimum / Jam</span>
+                        <span className="font-bold text-white text-sm">
+                          {targetNet > 0
+                            ? `~${formatRupiah(Math.round(((targetNet + overhead) / (1 - bufferPct)) / Math.max(1, hoursPerDay * workDays * billableRatio)))}/jam`
+                            : 'Rp 0/jam'}
+                        </span>
+                        <span className="text-[9px] text-white/50 block">batas bawah aman</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="bg-white/5 sm:bg-transparent p-1.5 sm:p-0 rounded-lg">
-                    <span className="text-[10px] text-white/60 block">Estimasi Floor Per Jam</span>
-                    <span className="font-bold text-white text-xs sm:text-sm">
-                      {targetNet > 0
-                        ? `~${formatRupiah(Math.round(((targetNet + overhead) / (1 - bufferPct)) / Math.max(1, hoursPerDay * workDays * billableRatio)))}/jam`
-                        : 'Rp 0/jam'}
-                    </span>
+                ) : (
+                  /* ============= TAMPILAN FIXED FLUSH TOP 0 (ULTRA-COMPACT) ============= */
+                  <div className="max-w-4xl mx-auto flex items-center justify-between gap-2 sm:gap-4 relative z-10">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="text-xs text-[#2DD4BF] font-extrabold shrink-0 animate-pulse">⚡</span>
+                      <div className="min-w-0">
+                        <div className="text-xs sm:text-sm font-extrabold text-[#2DD4BF] truncate leading-tight flex items-baseline gap-1">
+                          <span>{formatRupiah(targetNet)}</span>
+                          <span className="text-[9px] sm:text-[11px] font-normal text-white/70">/bln</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2.5 sm:gap-6 text-xs shrink-0">
+                      <div className="text-right sm:text-left">
+                        <span className="text-[9px] sm:text-[10px] text-white/60 block leading-none">
+                          Jam Kerja
+                        </span>
+                        <span className="font-bold text-[#2DD4BF] text-xs sm:text-sm leading-tight block">
+                          {targetNet > 0 ? `~${Math.round(hoursPerDay * workDays * billableRatio)} jam` : '0 jam'}
+                          <span className="hidden sm:inline">/bln</span>
+                        </span>
+                      </div>
+                      <div className="text-right sm:text-left border-l border-white/20 pl-2 sm:pl-4">
+                        <span className="text-[9px] sm:text-[10px] text-white/60 block leading-none">
+                          Tarif Minimum
+                        </span>
+                        <span className="font-bold text-white text-xs sm:text-sm leading-tight block">
+                          {targetNet > 0
+                            ? `~${formatRupiah(Math.round(((targetNet + overhead) / (1 - bufferPct)) / Math.max(1, hoursPerDay * workDays * billableRatio)))}/jam`
+                            : 'Rp 0/jam'}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 
